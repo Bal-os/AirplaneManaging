@@ -11,7 +11,7 @@ import os.balashov.airplanedemo.domain.entities.*;
 import os.balashov.airplanedemo.domain.repositories.AirplaneRepository;
 import os.balashov.airplanedemo.aplication.PlaneCalculationImpl;
 import os.balashov.airplanedemo.domain.services.OperatorData;
-import os.balashov.airplanedemo.infrastructure.config.SimpleAppConfig;
+import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {SimpleAppConfig.class})
+@SpringBootTest(classes = {AppConfig.class})
 public class AirplaneServiceTest {
     @Mock
     private AirplaneRepository mockAirplaneRepository;

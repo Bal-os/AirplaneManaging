@@ -1,7 +1,6 @@
 package os.balashov.airplanedemo.aplication;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +16,9 @@ import os.balashov.airplanedemo.domain.services.OperatorData;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-
+@Log4j2
 @Service
 public class AirplaneServiceImpl implements AirplaneService {
-    private static final Logger log = LoggerFactory.getLogger(AirplaneServiceImpl.class);
     private final AirplaneRepository airplaneRepository;
     private final AirplanePositionService airplanePositionService;
     private final OperatorData operatorData;
@@ -38,10 +36,10 @@ public class AirplaneServiceImpl implements AirplaneService {
     @Transactional
     public void manageAirplaneFlight(Airplane airplane) {
         if(isAirplaneInFlight(airplane)) {
-//            log.info("Updating flight for airplane: {}", airplane.getId());
+            log.debug("Updating flight for airplane: {}", airplane.getId());
             updateFlight(airplane);
         } else {
-//            log.info("Creating flight for airplane: {}", airplane.getId());
+            log.debug("Creating flight for airplane: {}", airplane.getId());
             printFlightStat(airplane);
             createFlight(airplane);
         }
@@ -49,7 +47,7 @@ public class AirplaneServiceImpl implements AirplaneService {
 
     @Override
     public List<Airplane> getAllAirplanes() {
-//        log.info("Getting all airplanes");
+        log.debug("Getting all airplanes");
         return airplaneRepository.findAll();
     }
 

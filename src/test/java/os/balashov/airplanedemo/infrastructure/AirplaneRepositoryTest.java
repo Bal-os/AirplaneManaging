@@ -8,7 +8,7 @@ import os.balashov.airplanedemo.domain.entities.Airplane;
 import os.balashov.airplanedemo.domain.entities.AirplaneCharacteristics;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
 import os.balashov.airplanedemo.domain.repositories.AirplaneRepository;
-import os.balashov.airplanedemo.infrastructure.config.SimpleAppConfig;
+import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 import os.balashov.airplanedemo.infrastructure.data.mongo.mapper.AirplaneMapper;
 import os.balashov.airplanedemo.infrastructure.data.mongo.model.AirplaneDocument;
 import os.balashov.airplanedemo.infrastructure.data.mongo.repository.AirplaneRepositoryImpl;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = {SimpleAppConfig.class})
+@SpringBootTest(classes = {AppConfig.class})
 public class AirplaneRepositoryTest {
     @Mock
     private MongoAirplaneRepository mockMongoAirplaneRepository;

@@ -1,7 +1,7 @@
 package os.balashov.airplanedemo.domain.entities;
 
 import lombok.*;
-@Builder
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

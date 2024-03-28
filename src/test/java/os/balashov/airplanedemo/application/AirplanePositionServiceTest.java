@@ -10,7 +10,7 @@ import os.balashov.airplanedemo.domain.entities.AirplaneCharacteristics;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
 import os.balashov.airplanedemo.aplication.PlaneCalculationImpl;
 import os.balashov.airplanedemo.domain.entities.WayPoint;
-import os.balashov.airplanedemo.infrastructure.config.SimpleAppConfig;
+import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = {SimpleAppConfig.class})
+@SpringBootTest(classes = {AppConfig.class})
 public class AirplanePositionServiceTest {
     @Mock
     private PlaneCalculationImpl planeCalculationImpl;
@@ -40,13 +40,13 @@ public class AirplanePositionServiceTest {
     @Test
     public void testCreateNewDestination_CalculatesRouteAndUpdates() {
         List<WayPoint> wayPoints = new ArrayList<>();
-        TemporaryPoint point = TemporaryPoint.builder().build();
+        TemporaryPoint point = new TemporaryPoint();
         List<TemporaryPoint> expectedRoute = new ArrayList<>();
         expectedRoute.add(point);
         when(planeCalculationImpl.calculateRoute(any(), any())).thenReturn(expectedRoute);
         Airplane airplane = mock(Airplane.class);
         when(airplane.getId()).thenReturn(1L);
-        when(airplane.getCharacteristics()).thenReturn(AirplaneCharacteristics.builder().build());
+        when(airplane.getCharacteristics()).thenReturn(new AirplaneCharacteristics());
 
         airplanePositionService.createNewDestination(airplane, wayPoints);
 
@@ -59,7 +59,7 @@ public class AirplanePositionServiceTest {
     public void testIsDestinationNotReached_WhenRouteHasPoints() {
         Airplane airplane = new Airplane();
         List<WayPoint> wayPoints = new ArrayList<>();
-        TemporaryPoint point = TemporaryPoint.builder().build();
+        TemporaryPoint point = new TemporaryPoint();
         List<TemporaryPoint> temporaryPoints = new ArrayList<>(List.of(point, point, point));
         when(planeCalculationImpl.calculateRoute(any(), any())).thenReturn(temporaryPoints);
 
@@ -73,8 +73,10 @@ public class AirplanePositionServiceTest {
     public void testUpdatePosition_CallsNextAndUpdatesAirplane() {
         Airplane airplane = new Airplane();
         List<WayPoint> wayPoints = new ArrayList<>();
-        TemporaryPoint firstPoint = TemporaryPoint.builder().height(5).build();
-        TemporaryPoint secondPoint = TemporaryPoint.builder().height(4).build();
+        TemporaryPoint firstPoint = new TemporaryPoint();
+        firstPoint.setHeight(5);
+        TemporaryPoint secondPoint = new TemporaryPoint();
+        secondPoint.setHeight(4);
         List<TemporaryPoint> temporaryPoints = new ArrayList<>(List.of(firstPoint, secondPoint));
         when(planeCalculationImpl.calculateRoute(any(), any())).thenReturn(temporaryPoints);
         airplanePositionService.createNewDestination(airplane, wayPoints);

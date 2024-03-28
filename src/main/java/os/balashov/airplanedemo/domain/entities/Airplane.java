@@ -10,11 +10,8 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 public class Airplane {
-    @NonNull
     private Long id;
-    @NonNull
     private AirplaneCharacteristics characteristics;
     private TemporaryPoint position;
-    @NonNull
     private List<Flight> flights;
 }

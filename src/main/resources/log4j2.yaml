@@ -1,0 +1,23 @@
+Configuration:
+  status: WARN
+  monitorInterval: 30
+  Properties:
+    LOG_PATTERN: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex"
+  Appenders:
+    ConsoleAppender:
+      name: ConsoleAppender
+      target: SYSTEM_OUT
+      follow: true
+      PatternLayout:
+        pattern: "${LOG_PATTERN}"
+  Loggers:
+    Logger:
+      - name: com.example.system
+        level: debug
+        additivity: false
+        AppenderRef:
+          ref: ConsoleAppender
+    Root:
+      level: info
+      AppenderRef:
+        ref: ConsoleAppender

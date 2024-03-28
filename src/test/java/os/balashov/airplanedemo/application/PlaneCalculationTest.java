@@ -8,7 +8,7 @@ import os.balashov.airplanedemo.domain.entities.AirplaneCharacteristics;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
 import os.balashov.airplanedemo.domain.entities.WayPoint;
 import os.balashov.airplanedemo.domain.services.PlaneCalculation;
-import os.balashov.airplanedemo.infrastructure.config.SimpleAppConfig;
+import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = {SimpleAppConfig.class})
+@SpringBootTest(classes = {AppConfig.class})
 public class PlaneCalculationTest {
     @Autowired
     private PlaneCalculation planeCalculation;
@@ -128,10 +128,37 @@ public class PlaneCalculationTest {
 
     @Test
     public void testCalculateRouteComplexMultipleResultPoints() {
-        AirplaneCharacteristics characteristics = new AirplaneCharacteristics(1000, 10, 100, 50);
+        AirplaneCharacteristics characteristics = new AirplaneCharacteristics(1000, 10, 100, 30);
         WayPoint point1 = new WayPoint(0, 0, 1000, 500);
         WayPoint point2 = new WayPoint(0, 10000, 2000, 600);
         WayPoint point3 = new WayPoint(4330, 7500, 3000, 700);
+        List<WayPoint> wayPoints = Arrays.asList(point1, point2, point3);
+
+
+        List<TemporaryPoint> result = planeCalculation.calculateRoute(characteristics, wayPoints);
+
+        assertNotNull(result, "Result should not be null");
+        assertFalse(result.isEmpty(), "Result should contain at least one point");
+
+        TemporaryPoint firstPoint = result.get(0);
+        assertEquals(point1.getLatitude(), firstPoint.getLatitude(), "First point latitude should match the first waypoint");
+        assertEquals(point1.getLongitude(), firstPoint.getLongitude(), "First point longitude should match the first waypoint");
+
+        TemporaryPoint lastPoint = result.get(result.size() - 1);
+        assertEquals(point3.getLatitude(), lastPoint.getLatitude(), "Last point latitude should match the last waypoint");
+        assertEquals(point3.getLongitude(), lastPoint.getLongitude(), "Last point longitude should match the last waypoint");
+
+        assertNotNull(result, "Result should not be null");
+        assertFalse(result.isEmpty(), "Result should contain at least one point");
+        assertTrue(result.size() > wayPoints.size(), "Result should contain more TemporaryPoints than WayPoints");
+    }
+
+    @Test
+    public void testCalculateRouteComplexResultPoints() {
+        AirplaneCharacteristics characteristics = new AirplaneCharacteristics(1000, 10, 100, 45);
+        WayPoint point1 = new WayPoint(0, 0, 1000, 500);
+        WayPoint point2 = new WayPoint(0, 10000, 2000, 600);
+        WayPoint point3 = new WayPoint(10000, 10000, 3000, 700);
         List<WayPoint> wayPoints = Arrays.asList(point1, point2, point3);
 
 

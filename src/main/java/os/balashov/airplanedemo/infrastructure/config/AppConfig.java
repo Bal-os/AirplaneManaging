@@ -8,7 +8,7 @@ import os.balashov.airplanedemo.domain.services.PlaneCalculation;
 
 @Configuration
 @EnableScheduling
-public class SimpleAppConfig {
+public class AppConfig {
     @Bean
     public PlaneCalculation planeCalculation() {
         return new PlaneCalculationImpl();

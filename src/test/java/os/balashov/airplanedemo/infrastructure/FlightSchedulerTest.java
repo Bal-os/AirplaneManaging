@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import os.balashov.airplanedemo.aplication.interfaces.AirplaneService;
 import os.balashov.airplanedemo.domain.entities.Airplane;
 import os.balashov.airplanedemo.domain.services.FlightScheduler;
-import os.balashov.airplanedemo.infrastructure.config.SimpleAppConfig;
+import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 import os.balashov.airplanedemo.infrastructure.schedulers.FlightSchedulerImpl;
 
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = {SimpleAppConfig.class})
+@SpringBootTest(classes = {AppConfig.class})
 public class FlightSchedulerTest {
     @Mock
     private AirplaneService mockAirplaneService;
