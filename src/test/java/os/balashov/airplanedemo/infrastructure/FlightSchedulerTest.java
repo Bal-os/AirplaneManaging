@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import os.balashov.airplanedemo.aplication.interfaces.AirplaneService;
+import os.balashov.airplanedemo.application.interfaces.AirplaneService;
 import os.balashov.airplanedemo.domain.entities.Airplane;
 import os.balashov.airplanedemo.domain.services.FlightScheduler;
 import os.balashov.airplanedemo.infrastructure.config.AppConfig;

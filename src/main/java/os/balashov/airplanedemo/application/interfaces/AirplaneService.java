@@ -1,4 +1,4 @@
-package os.balashov.airplanedemo.aplication.interfaces;
+package os.balashov.airplanedemo.application.interfaces;
 
 import os.balashov.airplanedemo.domain.entities.Airplane;
 

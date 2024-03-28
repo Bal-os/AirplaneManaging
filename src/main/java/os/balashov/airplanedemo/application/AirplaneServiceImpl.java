@@ -1,11 +1,11 @@
-package os.balashov.airplanedemo.aplication;
+package os.balashov.airplanedemo.application;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import os.balashov.airplanedemo.aplication.interfaces.AirplanePositionService;
-import os.balashov.airplanedemo.aplication.interfaces.AirplaneService;
+import os.balashov.airplanedemo.application.interfaces.AirplanePositionService;
+import os.balashov.airplanedemo.application.interfaces.AirplaneService;
 import os.balashov.airplanedemo.domain.entities.Airplane;
 import os.balashov.airplanedemo.domain.entities.Flight;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;

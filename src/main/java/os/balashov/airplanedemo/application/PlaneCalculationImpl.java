@@ -1,10 +1,10 @@
-package os.balashov.airplanedemo.aplication;
+package os.balashov.airplanedemo.application;
 
 import lombok.NoArgsConstructor;
-import os.balashov.airplanedemo.aplication.utils.InterpolationCoefficientCalculator;
-import os.balashov.airplanedemo.aplication.utils.Interpolator;
-import os.balashov.airplanedemo.aplication.utils.TemperaryPointAdapter;
-import os.balashov.airplanedemo.aplication.utils.Vector;
+import os.balashov.airplanedemo.application.utils.InterpolationCoefficientCalculator;
+import os.balashov.airplanedemo.application.utils.Interpolator;
+import os.balashov.airplanedemo.application.utils.TemperaryPointAdapter;
+import os.balashov.airplanedemo.application.utils.Vector;
 import os.balashov.airplanedemo.domain.entities.AirplaneCharacteristics;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
 import os.balashov.airplanedemo.domain.entities.WayPoint;
@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.stream.Collectors;
 
 /**
  * Implementation of the PlaneCalculation interface.
@@ -22,6 +21,7 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public class PlaneCalculationImpl implements PlaneCalculation {
+    private static final int MINIMAL_ROUTE_POINTS_AMOUNT = 2;
 
     /**
      * Calculates an airplane's route based on its characteristics and a list of waypoints.
@@ -43,13 +43,13 @@ public class PlaneCalculationImpl implements PlaneCalculation {
 
             checkedWayPoints.add(wayPoint);
         }
-        if(checkedWayPoints.size() < 2) {
+        if (checkedWayPoints.size() < MINIMAL_ROUTE_POINTS_AMOUNT) {
             return Collections.emptyList();
         }
 
         return generateTemporaryPoints(characteristics, checkedWayPoints).stream()
                 .map(TemperaryPointAdapter::getTemporaryPoint)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

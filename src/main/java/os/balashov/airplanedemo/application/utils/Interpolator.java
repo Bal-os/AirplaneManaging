@@ -1,4 +1,4 @@
-package os.balashov.airplanedemo.aplication.utils;
+package os.balashov.airplanedemo.application.utils;
 
 public interface Interpolator {
     default double interpolate(double start, double end, double progress) {

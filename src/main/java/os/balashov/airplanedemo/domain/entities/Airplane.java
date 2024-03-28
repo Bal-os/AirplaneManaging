@@ -4,11 +4,9 @@ import lombok.*;
 
 import java.util.List;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
 public class Airplane {
     private Long id;
     private AirplaneCharacteristics characteristics;

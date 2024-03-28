@@ -1,4 +1,4 @@
-package os.balashov.airplanedemo.aplication.utils;
+package os.balashov.airplanedemo.application.utils;
 
 import os.balashov.airplanedemo.domain.entities.AirplaneCharacteristics;
 import os.balashov.airplanedemo.domain.entities.WayPoint;

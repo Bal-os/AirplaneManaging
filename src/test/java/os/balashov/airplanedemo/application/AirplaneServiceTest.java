@@ -4,12 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import os.balashov.airplanedemo.aplication.AirplanePositionServiceImpl;
-import os.balashov.airplanedemo.aplication.AirplaneServiceImpl;
-import os.balashov.airplanedemo.aplication.interfaces.AirplanePositionService;
+import os.balashov.airplanedemo.application.interfaces.AirplanePositionService;
 import os.balashov.airplanedemo.domain.entities.*;
 import os.balashov.airplanedemo.domain.repositories.AirplaneRepository;
-import os.balashov.airplanedemo.aplication.PlaneCalculationImpl;
 import os.balashov.airplanedemo.domain.services.OperatorData;
 import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 
@@ -27,13 +24,12 @@ public class AirplaneServiceTest {
     private AirplaneRepository mockAirplaneRepository;
     @Mock
     private OperatorData mockOperatorData;
-    private AirplanePositionService airplanePositionService;
     private AirplaneServiceImpl airplaneService;
 
 
     @BeforeEach
     public void setUp() {
-        airplanePositionService = new AirplanePositionServiceImpl(new PlaneCalculationImpl());
+        AirplanePositionService airplanePositionService = new AirplanePositionServiceImpl(new PlaneCalculationImpl());
         airplaneService = new AirplaneServiceImpl(mockAirplaneRepository,
                 airplanePositionService,
                 mockOperatorData);

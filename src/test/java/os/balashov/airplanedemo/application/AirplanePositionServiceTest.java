@@ -4,11 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import os.balashov.airplanedemo.aplication.AirplanePositionServiceImpl;
 import os.balashov.airplanedemo.domain.entities.Airplane;
 import os.balashov.airplanedemo.domain.entities.AirplaneCharacteristics;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
-import os.balashov.airplanedemo.aplication.PlaneCalculationImpl;
 import os.balashov.airplanedemo.domain.entities.WayPoint;
 import os.balashov.airplanedemo.infrastructure.config.AppConfig;
 

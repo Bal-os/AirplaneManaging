@@ -1,4 +1,4 @@
-package os.balashov.airplanedemo.aplication.utils;
+package os.balashov.airplanedemo.application.utils;
 
 import lombok.Getter;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
@@ -6,7 +6,7 @@ import os.balashov.airplanedemo.domain.entities.WayPoint;
 
 @Getter
 public class TemperaryPointAdapter extends WayPoint {
-    private double angle;
+    private final double angle;
     private TemperaryPointAdapter(TemperaryPointAdapterBuilder builder) {
         super(builder.wayPoint.getLatitude(),
                 builder.wayPoint.getLongitude(),

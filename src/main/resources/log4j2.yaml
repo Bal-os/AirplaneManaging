@@ -12,7 +12,7 @@ Configuration:
         pattern: "${LOG_PATTERN}"
   Loggers:
     Logger:
-      - name: com.example.system
+      - name: os.balashov.airplane-demo
         level: debug
         additivity: false
         AppenderRef:

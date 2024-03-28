@@ -1,4 +1,4 @@
-package os.balashov.airplanedemo.aplication.utils;
+package os.balashov.airplanedemo.application.utils;
 
 public interface TimeCalculator {
     default double calculateTimeFromSpeed(double distance, double startSpeed, double endSpeed) {

@@ -2,11 +2,9 @@ package os.balashov.airplanedemo.domain.entities;
 
 import lombok.*;
 
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
+@AllArgsConstructor
 public class TemporaryPoint {
     private double latitude; // y
     private double longitude; // x

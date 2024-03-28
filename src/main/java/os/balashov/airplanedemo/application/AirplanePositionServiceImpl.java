@@ -1,9 +1,9 @@
-package os.balashov.airplanedemo.aplication;
+package os.balashov.airplanedemo.application;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import os.balashov.airplanedemo.aplication.interfaces.AirplanePositionService;
+import os.balashov.airplanedemo.application.interfaces.AirplanePositionService;
 import os.balashov.airplanedemo.domain.entities.Airplane;
 import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
 import os.balashov.airplanedemo.domain.entities.WayPoint;

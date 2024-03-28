@@ -1,4 +1,4 @@
-package os.balashov.airplanedemo.aplication.utils;
+package os.balashov.airplanedemo.application.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,11 +2,9 @@ package os.balashov.airplanedemo.domain.entities;
 
 import lombok.*;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
 public class AirplaneCharacteristics {
     private double maxSpeed;
     private double maxChangeSpeed;
