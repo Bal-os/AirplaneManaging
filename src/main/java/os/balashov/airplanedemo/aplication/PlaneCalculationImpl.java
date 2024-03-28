@@ -8,6 +8,7 @@ import os.balashov.airplanedemo.domain.entities.TemporaryPoint;
 import os.balashov.airplanedemo.domain.entities.WayPoint;
 import os.balashov.airplanedemo.domain.services.PlaneCalculation;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,12 +16,26 @@ import java.util.List;
 public class PlaneCalculationImpl implements PlaneCalculation {
     @Override
     public List<TemporaryPoint> calculateRoute(AirplaneCharacteristics characteristics, List<WayPoint> wayPoints) {
-        for (int i = 0; i < wayPoints.size() - 1; i++) {
-            WayPoint wayPoint = wayPoints.get(i);
-
-            wayPoint.setSpeed(Math.min(characteristics.getMaxSpeed(), wayPoint.getSpeed()));
+        if(isCharacteristicsIncorrect(characteristics)) {
+            return Collections.emptyList();
         }
 
+        List<WayPoint> checkedWayPoints = new LinkedList<>();
+        for (WayPoint wayPoint : wayPoints) {
+            if (wayPoint.getSpeed() > characteristics.getMaxSpeed()) continue;
+            if (wayPoint.getSpeed() < 0) continue;
+            if (wayPoint.getHeight() < 0) continue;
+
+            checkedWayPoints.add(wayPoint);
+        }
+
+        if(checkedWayPoints.size() < 2) {
+            return Collections.emptyList();
+        }
+        return getTemporaryPoints(characteristics, checkedWayPoints);
+    }
+
+    private LinkedList<TemporaryPoint> getTemporaryPoints(AirplaneCharacteristics characteristics, List<WayPoint> wayPoints) {
         LinkedList<TemporaryPoint> outputPoints = new LinkedList<>();
         TemporaryPoint firstPoint = buildTemporaryPointFromWayPoint(wayPoints.get(0), 0);
         outputPoints.add(firstPoint);
@@ -30,8 +45,7 @@ public class PlaneCalculationImpl implements PlaneCalculation {
             WayPoint nextPoint = wayPoints.get(i + 1);
             Vector vectorToNextPoint = new Vector(nextPoint, currentPoint);
 
-            int numberOfIntermediatePoints = outputPoints.size() -
-                    intermediatePointsAdd(outputPoints, currentPoint, vectorFromStartPoint, vectorToNextPoint, characteristics.getMaxChangeAngle());
+            int numberOfIntermediatePoints = getNumberOfIntermediatePoints(characteristics, outputPoints, currentPoint, vectorFromStartPoint, vectorToNextPoint);
 
             WayPoint prevPoint = wayPoints.get(i - 1);
             interpolationPointsAdd(outputPoints, prevPoint, currentPoint, characteristics, numberOfIntermediatePoints);
@@ -44,6 +58,29 @@ public class PlaneCalculationImpl implements PlaneCalculation {
         return outputPoints;
     }
 
+    private boolean isCharacteristicsIncorrect(AirplaneCharacteristics airplaneCharacteristics) {
+        return airplaneCharacteristics.getMaxChangeAngle() <= 0 &&
+                airplaneCharacteristics.getMaxChangeHeight() <= 0 &&
+                airplaneCharacteristics.getMaxChangeSpeed() <= 0 &&
+                airplaneCharacteristics.getMaxSpeed() <= 0;
+    }
+
+    private int getNumberOfIntermediatePoints(AirplaneCharacteristics characteristics,
+                                              LinkedList<TemporaryPoint> outputPoints,
+                                              WayPoint currentPoint,
+                                              Vector vectorFromStartPoint,
+                                              Vector vectorToNextPoint) {
+        if(characteristics.getMaxChangeAngle() <= 0) {
+            return 0;
+        }
+
+        double maxChangeAngle = Math.toRadians(characteristics.getMaxChangeAngle());
+
+        return intermediatePointsAdd(outputPoints,
+                currentPoint, vectorFromStartPoint, vectorToNextPoint, maxChangeAngle);
+    }
+
+
     private int intermediatePointsAdd(LinkedList<TemporaryPoint> outputPoints,
                                       WayPoint currentPoint,
                                       Vector vectorFromStartPoint,
@@ -53,7 +90,7 @@ public class PlaneCalculationImpl implements PlaneCalculation {
         while (true) {
             TemporaryPoint prevPoint = outputPoints.getLast();
             Vector currentVector = new Vector(currentPoint, prevPoint);
-            double angleChange = currentVector.angleInDegrees(vectorToNextPoint);
+            double angleChange = currentVector.angleBetween(vectorToNextPoint);
             if (angleChange <= maxChangeAngle) {
                 break;
             }
@@ -132,12 +169,15 @@ public class PlaneCalculationImpl implements PlaneCalculation {
                                                    AirplaneCharacteristics characteristics) {
         double distance = calculateDistance(point1, point2);
         double speedTime = calculateTimeFromSpeed(distance, point1.getSpeed(), point2.getSpeed());
+
         double heightDifference = calculateHeightDifference(point1, point2);
-        double heightDifferenceTime =
-                calculateTimeFromHeightDifference(heightDifference, characteristics.getMaxChangeHeight());
+        double heightDifferenceTime = calculateTimeFromHeightDifference(heightDifference,
+                characteristics.getMaxChangeHeight());
+
         double speedChangeTime = calculateSpeedChangeTime(point1.getSpeed(),
                 point2.getSpeed(),
                 characteristics.getMaxChangeSpeed());
+
         double time = Math.max(heightDifferenceTime, Math.max(speedTime, speedChangeTime));
         return (int) Math.ceil(time);
     }
@@ -158,10 +198,12 @@ public class PlaneCalculationImpl implements PlaneCalculation {
     }
 
     private double calculateTimeFromHeightDifference(double heightDifference, double heightChange) {
+        if (heightChange <= 0) return 0;
         return heightDifference / heightChange;
     }
 
     private double calculateSpeedChangeTime(double startSpeed, double endSpeed, double speedChangeLimit) {
+        if (speedChangeLimit <= 0) return 0;
         double speedDiff = Math.abs(startSpeed - endSpeed);
         return speedDiff / speedChangeLimit;
     }
@@ -208,10 +250,6 @@ public class PlaneCalculationImpl implements PlaneCalculation {
 
         public double routeSensitiveAngleInDegrees(Vector other) {
             return Math.toDegrees(routeSensitiveAngleBetween(other));
-        }
-
-        public double angleInDegrees(Vector other) {
-            return Math.toDegrees(angleBetween(other));
         }
 
         public Vector multiply(double scalar) {
